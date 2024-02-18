@@ -98,9 +98,6 @@ def calculate_sum(x_values, fx_values):
 
 # Initializes/prepares the calculation by extracting x and f(x) values from user input
 def initialize_calculation():
-    global x_values
-    global fx_values
-
     # Exception Handling to make sure that the user only enters numerical values as well as making sure x and f(x) have same number of values
     try:
         # x_values List Comprehension - Gets x values from entry and stores in array as individual numbers
