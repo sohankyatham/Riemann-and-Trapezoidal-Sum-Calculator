@@ -6,6 +6,7 @@
 # Imports
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import filedialog
 import matplotlib.pyplot as plt
 import webbrowser
 
@@ -120,6 +121,79 @@ def initialize_calculation():
         messagebox.showerror("Error", "Values of x and f(x) must be numerical")
 
 
+# Function to export the graph as an image file
+def export_graph(*args):
+    # Get the filename and location to save the graph image file
+    filename = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png"), ("JPEG files", "*.jpg"), ("All files", "*.*")])
+    
+    if filename:
+        # Save the current graph as an image file
+        plt.savefig(filename)
+        tk.messagebox.showinfo("Export Successful", "Graph has been exported successfully.")
+# Bind export_canvas with the keyboard binding Ctrl+s
+root.bind('<Control-Key-s>', export_graph)
+
+
+# Function to clear the entered data
+def clear_canvas(*args):
+    # Clear the Entry fields for x and f(x) values
+    x_values_entry.delete(0, tk.END)
+    fx_values_entry.delete(0, tk.END)
+
+    # Clear the graph
+    plt.clf()
+    plt.close()
+
+    # Show a message indicating that the data has been cleared
+    tk.messagebox.showinfo("Data Cleared", "Entered data and graph have been cleared.")
+# Bind clear_canvas with the keyboard binding Ctrl+l
+root.bind('<Control-Key-l>', clear_canvas)
+
+
+# Exits the program
+def exit_func(*args):
+    root.destroy()
+# Bind exit_func with the keyboard binding of Alt-F4
+root.bind("<Alt-Key-F4>", exit_func)
+
+
+# Opens link to Project Repository
+def view_project():
+    webbrowser.open("https://github.com/sohankyatham/Riemann-and-Trapezoidal-Sum-Calculator")
+
+
+# Opens new TopLevel window about the program
+def about_screen():
+    # about_screen_window
+    about_screen_window = tk.Toplevel(root)
+    about_screen_window.title("About")
+    about_screen_window.geometry("400x200")
+    about_screen_window.resizable(0,0)
+
+    # about_header - Displays a Label called "Square Root Calculator Using Newton's Method"
+    about_header = tk.Label(about_screen_window, text="Riemann & Trapezoidal Sum Calculator", font=("Arial", 14))
+    about_header.pack(pady=5)
+
+    # description - Displays a brief description for project
+    description = tk.Label(about_screen_window, text="This program estimates the area under a curve using \n numerical integration methods such as \n Riemann Sums (LRAM & RRAM) or the Trapezoidal Rule")
+    description.pack()
+
+    # header_attribtion - Shows that I created the program
+    header_attribtion = tk.Label(about_screen_window, text="By: Sohan Kyatham", width=16, font=("Arial", 12))
+    header_attribtion.pack()
+
+    # about_version - Displays the version of the program
+    about_version = tk.Label(about_screen_window, text="Version: 1.0.0", width=16, font=("Arial", 12))
+    about_version.pack()
+
+    # view_project_repository - View Project Repository Button
+    view_project_repository = tk.Button(about_screen_window, text="View Project Repository", width=26, font=("Arial", 12), bg="#26aceb", command=view_project)
+    view_project_repository.pack(pady=15)
+
+    # Mainloop for about_screen_window
+    about_screen_window.mainloop()
+
+
 # Label for Entering x-values
 x_value_label = tk.Label(root, text="Enter values of x:", font=("Arial", 11),)
 x_value_label.pack(pady=5)
@@ -176,16 +250,17 @@ root.config(menu=menu_bar)
 file_menu = tk.Menu(menu_bar, tearoff=False)
 # Add the graph_menu to the menu_bar
 menu_bar.add_cascade(label="File", menu=file_menu)
-file_menu.add_command(label="Save Graph as Image", accelerator="Ctrl+s")
+file_menu.add_command(label="Save Graph as Image", accelerator="Ctrl+s", command=export_graph)
+file_menu.add_command(label="Clear", accelerator="Ctrl+l", command=clear_canvas)
 file_menu.add_separator()
-file_menu.add_command(label="Exit Window", accelerator="Alt-F4")
+file_menu.add_command(label="Exit Window", accelerator="Alt-F4", command=exit_func)
 
 # help_menu - About & Documentation
 help_menu = tk.Menu(menu_bar, tearoff=False)
 # Add the about_menu to the menu_bar
 menu_bar.add_cascade(label="Help", menu=help_menu)
-help_menu.add_command(label="View Project Repository")#, command=view_project)
-help_menu.add_command(label="About")#, command=about_screen)
+help_menu.add_command(label="View Project Repository", command=view_project)
+help_menu.add_command(label="About", command=about_screen)
 
 # Mainloop
 root.mainloop()
