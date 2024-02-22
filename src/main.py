@@ -1,4 +1,4 @@
-# Riemann & Trapezoidal Sum Calculator with Python
+# Riemann & Trapezoidal Sum Calculator with Python 
 # By Sohan Kyatham 
 
 # This program estimates the area under a curve using numerical integration methods such as Riemann Sums (LRAM & RRAM) or the Trapezoidal Rule 
@@ -102,6 +102,7 @@ def initialize_calculation():
     try:
         # x_values List Comprehension - Gets x values from entry and stores in array as individual numbers
         x_values = [float(x) for x in x_values_entry.get().split()]
+        x_values.sort() # To make sure the x-values are entered in order
         # fx_values List Comprehension - Gets f(x) values from entry and stores in array as individual numbers
         fx_values = [float(x) for x in fx_values_entry.get().split()]
 
